@@ -2,7 +2,7 @@ import { AsyncPipe, CurrencyPipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { map, switchMap } from "rxjs";
-import { ConteudosService } from "../../core/services/conteudos.service";
+import { ConteudosService } from "../../core/services/torneios.service";
 
 @Component({
   selector: "app-detalhe-conteudo",

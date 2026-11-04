@@ -1,5 +1,5 @@
-export interface Conteudo {
-  id: number;
+export interface Torneio {
+  id: string;
   categoria: string;
   titulo: string;
   icone: string;

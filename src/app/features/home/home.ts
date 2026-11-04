@@ -2,7 +2,7 @@ import { AsyncPipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { map } from "rxjs";
-import { ConteudosService } from "../../core/services/conteudos.service";
+import { ConteudosService } from "../../core/services/torneios.service";
 
 @Component({
   selector: "app-home",
