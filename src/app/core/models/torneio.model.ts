@@ -1,14 +1,10 @@
 export interface Torneio {
-  id: string;
-  categoria: string;
-  titulo: string;
-  icone: string;
-  cor: "azul" | "dourado" | "verde" | "lilas" | "coral";
-  resumo: string;
-  descricao: string;
-  autor: string;
-  formato: string;
-  acesso: string;
-  preco: number;
-  beneficios: string[];
+id: string;
+nome: string;
+jogo: string;
+plataforma: string;
+data: string;
+premiacao: number;
+limiteParticipantes: number;
+inscricoesAbertas: boolean;
 }

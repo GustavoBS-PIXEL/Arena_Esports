@@ -42,7 +42,34 @@ export class TorneiosService {
     );
   }
 
+
+
+  create(torneio: Omit<Torneio, "id">): Observable<Torneio > {
+    return this.http.post<{ name: string }>
+    (this.apiUrl + this.sufix, torneio)
+    .pipe(
+      map((response) => ({
+        id: response.name, 
+        ...torneio,
+      })),
+    );
+  }
+
+    update(id: string, torneio: Omit<Torneio, "id">): Observable<Torneio > {
+    return this.http
+    .put<Omit<Torneio, "id">>
+    (`${this.apiUrl}/${id}${this.sufix}`, torneio)
+    .pipe(
+      map((response) => ({
+        id, 
+        ...torneio,
+      })),
+    );
+  }
+
+
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}${this.sufix}`);
   }
+
 }

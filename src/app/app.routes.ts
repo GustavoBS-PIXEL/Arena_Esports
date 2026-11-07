@@ -13,16 +13,16 @@ export const routes: Routes = [
   {
     path: "conteudos",
     loadComponent: () =>
-      import("./features/conteudos/conteudos").then((m) => m.Conteudos),
+      import("./features/torneios/torneios").then((m) => m.Torneios),
     title: "Conteúdos | EsportArena",
   },
   {
     path: "conteudos/:id",
     loadComponent: () =>
-      import("./features/detalhe-conteudo/detalhe-conteudo").then(
-        (m) => m.DetalheConteudo,
+      import("./features/detalhe-torneio/detalhe-torneio").then(
+        (m) => m.DetalheTorneio,
       ),
-    title: "Detalhes do conteúdo | EsportArena",
+    title: "Detalhes do torneio | EsportArena",
   },
   {
     path: "admin",
@@ -30,20 +30,20 @@ export const routes: Routes = [
     title: "Admin | EsportArena",
   },
   {
-    path: "admin/novo",
+    path: "admin/form",
     loadComponent: () =>
-      import("./features/manutencao-conteudo/manutencao-conteudo").then(
-        (m) => m.ManutencaoConteudo,
+      import("./features/manutencao-torneio/manutencao-torneio").then(
+        (m) => m.ManutencaoTorneio,
       ),
-    title: "Novo conteúdo | EsportArena",
+    title: "Novo torneio | EsportArena",
   },
   {
-    path: "admin/editar/:id",
+    path: "admin/form/:id",
     loadComponent: () =>
-      import("./features/manutencao-conteudo/manutencao-conteudo").then(
-        (m) => m.ManutencaoConteudo,
+      import("./features/manutencao-torneio/manutencao-torneio").then(
+        (m) => m.ManutencaoTorneio,
       ),
-    title: "Editar conteúdo | EsportArena",
+    title: "Editar torneio | EsportArena",
   },
   { path: "**", redirectTo: "" },
 ];

@@ -1,5 +1,42 @@
-<h1>Administração de conteúdos</h1>
-<p>Esta área será usada para realizar a manutenção dos itens cadastrados.</p>
-<a routerLink="/admin/novo">Novo conteúdo</a>
-<h2>Itens cadastrados</h2>
-<p>Na próxima etapa, esta seção terá a listagem, os botões de editar e excluir e as operações de CRUD.</p>
+<section class="list-box">
+    <div class="top-bar">
+        <h2>Lista de Torneios</h2>
+        <a routerLink="/admin/form" class="btn">Novo Torneio</a>
+    </div>
+    @if (successMessage) {
+        <div class="success-message">
+            {{successMessage}}
+        </div>
+    }
+    @if (errorMessage) {
+        <div class="error-message">
+            {{errorMessage}}
+        </div>
+    }
+
+
+    @if (loading) {
+        <div class="loading">
+            <p>Carregando torneios...</p>
+        </div>
+    }
+
+    <div class="torneio-grid">
+        @for(torneio of torneios; track torneio.id) {
+            <div class="torneio-item">
+                <h3>{{torneio.nome}}</h3>
+                <p>Data: {{torneio.data}}</p>
+                <p>Local: {{torneio.plataforma}}</p>
+                <div class="actions">
+                    <button type="button" class="btn-edit" (click)="edit(torneio.id)">
+                        Editar
+                    </button>
+                    <button type="button" class="btn-delete" (click)="remove(torneio.id)">
+                        Excluir
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+
+</section>

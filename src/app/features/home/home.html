@@ -48,16 +48,16 @@
     </div>
 
     <div class="trilho" #trilho tabindex="0" aria-label="Carrossel de conteúdos em destaque">
-      @for (conteudo of conteudosDestaque$ | async; track conteudo.id) {
+      @for (torneio of conteudosDestaque$ | async; track torneio.id) {
       <article class="card-conteudo">
-        <div class="capa" [class]="'capa ' + conteudo.cor">
-          <span>{{ conteudo.icone }}</span>
+        <div class="capa" [class]="'capa ' + torneio.jogo">
+          <span>{{ torneio.jogo }}</span>
           <small>EsportArena</small>
         </div>
         <div class="card-corpo">
-          <span class="categoria">{{ conteudo.categoria }}</span>
-          <h3>{{ conteudo.titulo }}</h3>
-          <a [routerLink]="['/conteudos', conteudo.id]" [attr.aria-label]="'Conhecer ' + conteudo.titulo">Conhecer
+          <span class="categoria">{{ torneio.jogo }}</span>
+          <h3>{{ torneio.nome }}</h3>
+          <a [routerLink]="['/conteudos', torneio.id]" [attr.aria-label]="'Conhecer ' + torneio.nome">Conhecer
             <span>→</span></a>
         </div>
       </article>
