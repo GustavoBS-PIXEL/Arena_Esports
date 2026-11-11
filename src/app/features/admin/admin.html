@@ -14,15 +14,20 @@
         </div>
     }
 
+    @if (!loading() && torneios().length === 0) {
+        <div class="empty-state">
+            <p>Nenhum torneio encontrado.</p>
+        </div>
+    }
 
-    @if (loading) {
+    @if (loading()) {
         <div class="loading">
             <p>Carregando torneios...</p>
         </div>
     }
 
     <div class="torneio-grid">
-        @for(torneio of torneios; track torneio.id) {
+        @for(torneio of torneios(); track torneio.id) {
             <div class="torneio-item">
                 <h3>{{torneio.nome}}</h3>
                 <p>Data: {{torneio.data}}</p>

@@ -1,7 +1,7 @@
 import { AsyncPipe, CurrencyPipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { map, switchMap } from "rxjs";
+import { map, of, switchMap } from "rxjs";
 import { TorneiosService } from "../../core/services/torneios.service";
 
 @Component({
@@ -11,12 +11,12 @@ import { TorneiosService } from "../../core/services/torneios.service";
   styleUrl: "./detalhe-torneio.css",
 })
 export class DetalheTorneio {
-  readonly conteudo$;
+  readonly torneio$;
 
   constructor(route: ActivatedRoute, torneiosService: TorneiosService) {
-    this.conteudo$ = route.paramMap.pipe(
+    this.torneio$ = route.paramMap.pipe(
       map((parametros) => parametros.get("id")),
-      switchMap((id) => torneiosService.getById(id)),
+      switchMap((id) => id === null ? of(null) : torneiosService.getById(id)),
     );
   }
 }

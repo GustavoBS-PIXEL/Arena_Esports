@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: "conteudos",
     loadComponent: () =>
-      import("./features/torneios/torneios").then((m) => m.Torneios),
+      import("./features/torneios/torneios").then((m) => m.Conteudos),
     title: "Conteúdos | EsportArena",
   },
   {

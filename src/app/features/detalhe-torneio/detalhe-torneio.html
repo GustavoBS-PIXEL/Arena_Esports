@@ -3,19 +3,18 @@
   <a class="voltar" routerLink="/conteudos"><span>←</span> Voltar para conteúdos</a>
   <section class="apresentacao">
     <div class="capa" [class]="'capa ' + torneio.jogo" aria-hidden="true">
-      <span>{{ torneio.jogo }}</span><small>EsportArena</small>
+      <span>{{ torneio.nome }}</span><small>EsportArena</small>
     </div>
     <div class="informacoes">
-      <span class="categoria">{{ torneio.categoria }}</span>
-      <h1>{{ torneio.titulo }}</h1>
-      <p class="introducao">{{ torneio.resumo }}</p>
+      <span class="categoria">{{ torneio.jogo }}</span>
+      <h1>{{ torneio.nome }}</h1>
+      <p class="introducao">Torneio de {{ torneio.jogo }} na plataforma {{ torneio.plataforma }}.</p>
       <div class="metadados">
-        <div><span>Formato</span><strong>{{ torneio.formato }}</strong></div>
-        <div><span>Acesso</span><strong>{{ torneio.acesso }}</strong></div>
-        <div><span>Autor</span><strong>{{ torneio.autor }}</strong></div>
+        <div><span>Data</span><strong>{{ torneio.data }}</strong></div>
+        <div><span>Participantes</span><strong>{{ torneio.limiteParticipantes }}</strong></div>
+        <div><span>Inscrições</span><strong>{{ torneio.inscricoesAbertas ? 'Abertas' : 'Encerradas' }}</strong></div>
       </div>
-      <p class="preco"><span>Por apenas</span><strong>{{ torneio.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-          }}</strong></p>
+      <p class="preco"><span>Premiação</span><strong>{{ torneio.premiacao | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong></p>
       <button class="botao-principal" type="button">Quero este conteúdo <span>→</span></button>
       <p class="observacao">A ação de compra poderá ser conectada à API posteriormente.</p>
     </div>
@@ -24,14 +23,14 @@
     <div class="texto">
       <span class="rotulo">Sobre este conteúdo</span>
       <h2>{{ torneio.nome }}</h2>
-      <p>{{ torneio.jogo }}</p>
+      <p>Jogo: {{ torneio.jogo }}</p>
     </div>
     <aside>
-      <h3>O que você encontra</h3>
+      <h3>Informações do torneio</h3>
       <ul>
-        @for (beneficio of torneio.beneficios; track beneficio) {
-        <li><span>✓</span> {{ beneficio }}</li>
-        }
+        <li><span>✓</span> Plataforma: {{ torneio.plataforma }}</li>
+        <li><span>✓</span> Data: {{ torneio.data }}</li>
+        <li><span>✓</span> Limite: {{ torneio.limiteParticipantes }} participantes</li>
       </ul>
     </aside>
   </section>

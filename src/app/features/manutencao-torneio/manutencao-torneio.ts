@@ -1,10 +1,10 @@
 import { Component, inject } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TorneiosService } from "../../core/services/torneios.service";
 @Component({
   selector: "app-manutencao-torneio",
-  imports: [RouterLink],
+  imports: [ReactiveFormsModule],
   templateUrl: "./manutencao-torneio.html",
   styleUrl: "./manutencao-torneio.css",
 })
@@ -25,12 +25,12 @@ export class ManutencaoTorneio {
   jogo: ["", [Validators.required]],
   plataforma: ["", [Validators.required]],
   data: ["", [Validators.required]],
-  premiacao: ["", [Validators.required, Validators.min(0)]],
-  limiteParticipantes: ["", [Validators.required, Validators.min(0)]],
-  inscricoesAbertas: ["", [Validators.required]],
+  premiacao: [0, [Validators.required, Validators.min(0)]],
+  limiteParticipantes: [0, [Validators.required, Validators.min(0)]],
+  inscricoesAbertas: [false, [Validators.required]],
   });
 
-  ngInit(): void {
+  ngOnInit(): void {
     const id = this.route.snapshot.queryParamMap.get("id");
     if (id) {
       this.editingId = id;
@@ -46,9 +46,9 @@ export class ManutencaoTorneio {
           jogo: torneio.jogo,
           plataforma: torneio.plataforma,
           data: torneio.data,
-          premiacao: String(torneio.premiacao),
-          limiteParticipantes: String(torneio.limiteParticipantes),
-          inscricoesAbertas: String(torneio.inscricoesAbertas)
+          premiacao: torneio.premiacao,
+          limiteParticipantes: torneio.limiteParticipantes,
+          inscricoesAbertas: torneio.inscricoesAbertas
         });
         this.loadingData = false;
       },
@@ -78,8 +78,37 @@ export class ManutencaoTorneio {
     };
 
   if (this.editingId !== null) {
-  }
-  }
+    this.torneioService.update(this.editingId, torneioData)
+    .subscribe({
+      next: () => {
+        this.loading = false;
+        this.sucessMessage = "Torneio atualizado com sucesso!";
+        setTimeout(() => {
+          this.router.navigate(["/admin"]);
+        }, 1000);
+      },
+      error: () => {
+        this.loading = false;
+        this.errorMessage = "Erro ao atualizar torneio";
+      },
+    })
+    return;
+    }
+    this.torneioService.create(torneioData).subscribe({
+        next: () => {
+          this.loading = false;
+          this.sucessMessage = "Torneio criado com sucesso!";
+          this.form.reset();
+          setTimeout(() => {
+            this.router.navigate(["/admin"]);
+          }, 1000);
+        },
+         error: () => {
+          this.loading = false;
+          this.errorMessage = "Erro ao criar torneio";
+        }
+    })
+}
 }
 
 

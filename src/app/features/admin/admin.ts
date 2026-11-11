@@ -1,9 +1,7 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { Router, RouterLink } from "@angular/router";
 import { TorneiosService } from "../../core/services/torneios.service";
 import { Torneio } from "../../core/models/torneio.model";
-
-
 @Component({
   selector: "app-admin",
   imports: [RouterLink],
@@ -14,27 +12,27 @@ export class Admin {
   private torneioService = inject(TorneiosService);
   private router = inject(Router);
 
-  torneios: Torneio[] = [];
-  loading = false;
+  torneios = signal<Torneio[]>([]);
+  loading = signal(true);
   errorMessage = "";
   successMessage = "";
 
   loadTorneios(): void {
-    this.loading = true;
+    this.loading.set(true);
     this.errorMessage = "";
     this.torneioService.getAll().subscribe({
       next: (response) => {
-        this.torneios = response;
-        this.loading = false;
+        this.torneios.set(response);
+        this.loading.set(false);
       },
       error: (error) => {
         this.errorMessage = "Erro ao carregar torneios";
-        this.loading = false;
+        this.loading.set(false);
       },
     });
   }
 
-  ngInit(): void {
+  ngOnInit(): void {
     this.loadTorneios();
   }
   edit(id: string): void {

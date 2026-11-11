@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 @Component({
   selector: "app-conteudos",
-  templateUrl: "./conteudos.html",
-  styleUrl: "./conteudos.css",
+  templateUrl: "./torneios.html",
+  styleUrl: "./torneios.css",
 })
 export class Conteudos {}
