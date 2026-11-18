@@ -1,8 +1,14 @@
 import { AsyncPipe, CurrencyPipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { map, of, switchMap } from "rxjs";
+import { catchError, map, of, startWith, switchMap } from "rxjs";
 import { TorneiosService } from "../../core/services/torneios.service";
+import { Torneio } from "../../core/models/torneio.model";
+
+type EstadoDetalhe =
+  | { status: "loading" }
+  | { status: "error" }
+  | { status: "success"; torneio: Torneio };
 
 @Component({
   selector: "app-detalhe-torneio",
@@ -11,12 +17,19 @@ import { TorneiosService } from "../../core/services/torneios.service";
   styleUrl: "./detalhe-torneio.css",
 })
 export class DetalheTorneio {
-  readonly torneio$;
+  readonly estado$;
 
   constructor(route: ActivatedRoute, torneiosService: TorneiosService) {
-    this.torneio$ = route.paramMap.pipe(
-      map((parametros) => parametros.get("id")),
-      switchMap((id) => id === null ? of(null) : torneiosService.getById(id)),
+    this.estado$ = route.paramMap.pipe(
+      switchMap((parametros) => {
+        const id = parametros.get("id");
+        if (id === null) return of<EstadoDetalhe>({ status: "error" });
+        return torneiosService.getById(id).pipe(
+          map((torneio): EstadoDetalhe => ({ status: "success", torneio })),
+          catchError(() => of<EstadoDetalhe>({ status: "error" })),
+          startWith({ status: "loading" } as EstadoDetalhe),
+        );
+      }),
     );
   }
 }

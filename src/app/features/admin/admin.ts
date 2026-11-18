@@ -36,9 +36,7 @@ export class Admin {
     this.loadTorneios();
   }
   edit(id: string): void {
-    this.router.navigate(["/admin/editar"],
-       { queryParams: { id } 
-      });
+    this.router.navigate(["/admin/form", id]);
   }
   remove(id: string): void {
     const confirmDelete = confirm("Tem certeza que deseja remover este torneio?");

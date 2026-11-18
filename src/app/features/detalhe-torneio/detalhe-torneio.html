@@ -1,45 +1,38 @@
-@if (torneio$ | async; as torneio) {
 <article class="detalhe">
-  <a class="voltar" routerLink="/conteudos"><span>←</span> Voltar para conteúdos</a>
-  <section class="apresentacao">
-    <div class="capa" [class]="'capa ' + torneio.jogo" aria-hidden="true">
-      <span>{{ torneio.nome }}</span><small>EsportArena</small>
-    </div>
-    <div class="informacoes">
-      <span class="categoria">{{ torneio.jogo }}</span>
-      <h1>{{ torneio.nome }}</h1>
-      <p class="introducao">Torneio de {{ torneio.jogo }} na plataforma {{ torneio.plataforma }}.</p>
-      <div class="metadados">
-        <div><span>Data</span><strong>{{ torneio.data }}</strong></div>
-        <div><span>Participantes</span><strong>{{ torneio.limiteParticipantes }}</strong></div>
-        <div><span>Inscrições</span><strong>{{ torneio.inscricoesAbertas ? 'Abertas' : 'Encerradas' }}</strong></div>
-      </div>
-      <p class="preco"><span>Premiação</span><strong>{{ torneio.premiacao | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong></p>
-      <button class="botao-principal" type="button">Quero este conteúdo <span>→</span></button>
-      <p class="observacao">A ação de compra poderá ser conectada à API posteriormente.</p>
-    </div>
-  </section>
-  <section class="descricao">
-    <div class="texto">
-      <span class="rotulo">Sobre este conteúdo</span>
-      <h2>{{ torneio.nome }}</h2>
-      <p>Jogo: {{ torneio.jogo }}</p>
-    </div>
-    <aside>
-      <h3>Informações do torneio</h3>
-      <ul>
-        <li><span>✓</span> Plataforma: {{ torneio.plataforma }}</li>
-        <li><span>✓</span> Data: {{ torneio.data }}</li>
-        <li><span>✓</span> Limite: {{ torneio.limiteParticipantes }} participantes</li>
-      </ul>
-    </aside>
-  </section>
+  <a class="voltar" routerLink="/conteudos"><span aria-hidden="true">←</span> Voltar para torneios</a>
+
+  @if (estado$ | async; as estado) {
+    @if (estado.status === 'success') {
+      @let torneio = estado.torneio;
+      <section class="apresentacao" aria-labelledby="nome-torneio">
+        <div class="capa" aria-hidden="true">
+          <div class="orbita orbita-externa"></div><div class="orbita orbita-interna"></div>
+          <div class="capa-emblema"><span>EA</span><small>✦</small></div>
+          <span class="capa-rodape">ESPORTARENA // TORNEIO</span>
+        </div>
+        <div class="informacoes">
+          <span class="categoria">TORNEIO / {{ torneio.jogo }}</span>
+          <h1 id="nome-torneio">{{ torneio.nome }}</h1>
+          <p class="introducao">Prepare-se para a disputa de {{ torneio.jogo }} na plataforma {{ torneio.plataforma }}.</p>
+          <span class="status" [class.encerrado]="!torneio.inscricoesAbertas"><span class="status-ponto" aria-hidden="true"></span>{{ torneio.inscricoesAbertas ? 'Inscrições abertas' : 'Inscrições encerradas' }}</span>
+
+          <div class="metadados">
+            <div><span>DATA</span><strong>{{ torneio.data }}</strong></div>
+            <div><span>PLATAFORMA</span><strong>{{ torneio.plataforma }}</strong></div>
+            <div><span>LIMITE DE PARTICIPANTES</span><strong>{{ torneio.limiteParticipantes }}</strong></div>
+          </div>
+          <div class="premiacao"><span>PREMIAÇÃO</span><strong>{{ torneio.premiacao | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong></div>
+        </div>
+      </section>
+
+      <section class="descricao" aria-labelledby="titulo-detalhes">
+        <div class="texto"><span class="categoria">FICHA DA COMPETIÇÃO</span><h2 id="titulo-detalhes">Tudo pronto para o <span>próximo desafio.</span></h2><p>Confira os dados do torneio e escolha como se preparar para a partida.</p></div>
+        <div class="resumo-card"><h3>Resumo do torneio</h3><dl><div><dt>Jogo</dt><dd>{{ torneio.jogo }}</dd></div><div><dt>Data</dt><dd>{{ torneio.data }}</dd></div><div><dt>Plataforma</dt><dd>{{ torneio.plataforma }}</dd></div><div><dt>Inscrições</dt><dd>{{ torneio.inscricoesAbertas ? 'Abertas' : 'Encerradas' }}</dd></div></dl></div>
+      </section>
+    } @else if (estado.status === 'loading') {
+      <section class="estado" role="status"><span class="etiqueta">CARREGANDO DADOS</span><h1>Preparando a arena...</h1><p>Estamos buscando as informações do torneio.</p></section>
+    } @else {
+      <section class="estado" role="alert"><span class="etiqueta">TORNEIO INDISPONÍVEL</span><h1>Este desafio não foi encontrado.</h1><p>O torneio pode ter sido removido ou está indisponível no momento.</p><a routerLink="/conteudos">Ver todos os torneios <span aria-hidden="true">↗</span></a></section>
+    }
+  }
 </article>
-} @else {
-<section class="nao-encontrado">
-  <span>404</span>
-  <h1>Conteúdo não encontrado</h1>
-  <p>O item pode não existir ou ter sido removido da lista.</p>
-  <a routerLink="/conteudos">Ver todos os conteúdos</a>
-</section>
-}

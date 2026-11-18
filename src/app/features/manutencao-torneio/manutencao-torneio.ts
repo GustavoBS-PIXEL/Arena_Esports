@@ -1,10 +1,10 @@
 import { Component, inject } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { TorneiosService } from "../../core/services/torneios.service";
 @Component({
   selector: "app-manutencao-torneio",
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: "./manutencao-torneio.html",
   styleUrl: "./manutencao-torneio.css",
 })
@@ -27,11 +27,11 @@ export class ManutencaoTorneio {
   data: ["", [Validators.required]],
   premiacao: [0, [Validators.required, Validators.min(0)]],
   limiteParticipantes: [0, [Validators.required, Validators.min(0)]],
-  inscricoesAbertas: [false, [Validators.required]],
+  inscricoesAbertas: [false],
   });
 
   ngOnInit(): void {
-    const id = this.route.snapshot.queryParamMap.get("id");
+    const id = this.route.snapshot.paramMap.get("id") ?? this.route.snapshot.queryParamMap.get("id");
     if (id) {
       this.editingId = id;
       this.loadTorneio(id);

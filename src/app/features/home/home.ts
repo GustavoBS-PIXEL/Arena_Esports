@@ -11,15 +11,15 @@ import {TorneiosService } from "../../core/services/torneios.service";
   styleUrl: "./home.css",
 })
 export class Home {
-  readonly conteudosDestaque$;
+  readonly torneiosDestaque$;
 
   constructor(torneioService: TorneiosService) {
-    this.conteudosDestaque$ = torneioService
+    this.torneiosDestaque$ = torneioService
       .getAll()
       .pipe(map((torneios) => torneios.slice(0, 10)));
   }
 
   moverCarrossel(trilho: HTMLElement, direcao: number): void {
-    trilho.scrollBy({ left: direcao * 340, behavior: "smooth" });
+    trilho.scrollBy({ left: direcao * 242, behavior: "smooth" });
   }
 }

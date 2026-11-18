@@ -1,105 +1,68 @@
-<div class="form-box">
-    <h2>
-        @if(editingId !== null) {
-            Editar Torneio
-        } @else {
-            Adicionar Torneio
-        }
-    </h2>
+<section class="manutencao" aria-labelledby="titulo-manutencao">
+  <a class="voltar" routerLink="/admin"><span aria-hidden="true">←</span> Voltar para o painel</a>
 
-    @if (loadingData) {
-    <div class="info-message">
-        <span class="spinner"></span>
-        <p>Carregando dados do torneio...</p>
-        </div>
-    }
-    @if (sucessMessage) {
-        <div class="success-message">
-            {{ sucessMessage }}
-        </div>
-    }
-    @if (errorMessage) {
-        <div class="error-message">
-            {{ errorMessage }}
-        </div>
-    }
+  <header class="cabecalho-formulario">
+    <span class="etiqueta">PAINEL / GERENCIAR TORNEIOS</span>
+    <h1 id="titulo-manutencao">{{ editingId !== null ? 'Editar' : 'Criar' }} <span>torneio</span></h1>
+    <p>Defina os detalhes da competição que aparecerão para os jogadores na arena.</p>
+  </header>
+
+  <div class="form-box">
+    <div class="form-intro"><div><span class="etiqueta">CONFIGURAÇÃO DA PARTIDA</span><h2>Dados do torneio</h2></div><span class="form-selo" aria-hidden="true">EA ✦</span></div>
+
+    @if (loadingData) { <div class="info-message" role="status"><span class="spinner" aria-hidden="true"></span> Carregando dados do torneio...</div> }
+    @if (sucessMessage) { <div class="success-message" role="status">{{ sucessMessage }}</div> }
+    @if (errorMessage) { <div class="error-message" role="alert">{{ errorMessage }}</div> }
+
     <form [formGroup]="form" (ngSubmit)="submit()">
-        <div class="field">
-            <label for="nome">Nome do Torneio</label>
-            <input id="nome" formControlName="nome" type="text" />
-            <span class="character-count">
-                {{ form.controls.nome.value.length}} caracteres
-            </span>
-            @if (form.controls.nome.touched &&
-            form.controls.nome.invalid) {
-                <small>Informe um nome para o torneio.</small>
-            }
-            <label for="jogo">Jogo</label>
-            <input id="jogo" formControlName="jogo" type="text" />
-            <span class="character-count">
-                {{ form.controls.jogo.value.length}} caracteres
-            </span>
-            @if (form.controls.jogo.touched &&
-            form.controls.jogo.invalid) {
-                <small>Informe um jogo para o torneio.</small>
-            }
-            <label for="plataforma">Plataforma</label>
-            <input id="plataforma" formControlName="plataforma" type="text" />
-            <span class="character-count">
-                {{ form.controls.plataforma.value.length}} caracteres
-            </span>
-            @if (form.controls.plataforma.touched &&
-            form.controls.plataforma.invalid) {
-                <small>Informe uma plataforma para o torneio.</small>
-            }
-            <label for="data">Data</label>
-            <input id="data" formControlName="data" type="date" />
-            <span class="character-count">
-                {{ form.controls.data.value.length}} caracteres
-            </span>
-            @if (form.controls.data.touched &&
-            form.controls.data.invalid) {
-                <small>Informe uma data para o torneio.</small>
-            }
-            <label for="limiteParticipantes">Limite de Participantes</label>
-            <input id="limiteParticipantes" formControlName="limiteParticipantes" type="number" />
-            <span class="character-count">
-                {{ form.controls.limiteParticipantes.value}} caracteres
-            </span>
-            @if (form.controls.limiteParticipantes.touched &&
-            form.controls.limiteParticipantes.invalid) {
-                <small>Informe um limite de participantes para o torneio.</small>
-            }
-            <label for="inscricoesAbertas">Inscrições Abertas</label>
-            <input id="inscricoesAbertas" formControlName="inscricoesAbertas" type="checkbox" />
-            <span class="character-count">
-                {{ form.controls.inscricoesAbertas.value}} caracteres
-            </span>
-            @if (form.controls.inscricoesAbertas.touched &&
-            form.controls.inscricoesAbertas.invalid) {
-                <small>Inscriçoes abertas?.</small>
-            }
-            <label for="premiacao">Premiação</label>
-            <input id="premiacao" formControlName="premiacao" type="text" />
-            <span class="character-count">
-                {{ form.controls.premiacao.value}} caracteres
-            </span>
-            @if (form.controls.premiacao.touched &&
-            form.controls.premiacao.invalid) {
-                <small>Informe uma premiação para o torneio.</small>
-            }
+      <div class="grade-campos">
+        <div class="campo campo-inteiro">
+          <label for="nome">Nome do torneio</label>
+          <input id="nome" formControlName="nome" type="text" placeholder="Ex.: Campeonato da Arena" [attr.aria-invalid]="form.controls.nome.touched && form.controls.nome.invalid" />
+          @if (form.controls.nome.touched && form.controls.nome.invalid) { <small>Informe um nome para o torneio.</small> }
         </div>
+
+        <div class="campo">
+          <label for="jogo">Jogo</label>
+          <input id="jogo" formControlName="jogo" type="text" placeholder="Ex.: Valorant" [attr.aria-invalid]="form.controls.jogo.touched && form.controls.jogo.invalid" />
+          @if (form.controls.jogo.touched && form.controls.jogo.invalid) { <small>Informe o jogo do torneio.</small> }
+        </div>
+        <div class="campo">
+          <label for="plataforma">Plataforma</label>
+          <input id="plataforma" formControlName="plataforma" type="text" placeholder="Ex.: PC" [attr.aria-invalid]="form.controls.plataforma.touched && form.controls.plataforma.invalid" />
+          @if (form.controls.plataforma.touched && form.controls.plataforma.invalid) { <small>Informe a plataforma.</small> }
+        </div>
+
+        <div class="campo">
+          <label for="data">Data do torneio</label>
+          <input id="data" formControlName="data" type="date" [attr.aria-invalid]="form.controls.data.touched && form.controls.data.invalid" />
+          @if (form.controls.data.touched && form.controls.data.invalid) { <small>Informe a data do torneio.</small> }
+        </div>
+        <div class="campo">
+          <label for="limiteParticipantes">Limite de participantes</label>
+          <input id="limiteParticipantes" formControlName="limiteParticipantes" type="number" min="0" step="1" [attr.aria-invalid]="form.controls.limiteParticipantes.touched && form.controls.limiteParticipantes.invalid" />
+          @if (form.controls.limiteParticipantes.touched && form.controls.limiteParticipantes.invalid) { <small>Informe um limite válido de participantes.</small> }
+        </div>
+
+        <div class="campo campo-inteiro">
+          <label for="premiacao">Premiação (R$)</label>
+          <input id="premiacao" formControlName="premiacao" type="number" min="0" step="0.01" [attr.aria-invalid]="form.controls.premiacao.touched && form.controls.premiacao.invalid" />
+          @if (form.controls.premiacao.touched && form.controls.premiacao.invalid) { <small>Informe uma premiação válida.</small> }
+        </div>
+      </div>
+
+      <label class="campo-checkbox" for="inscricoesAbertas">
+        <input id="inscricoesAbertas" formControlName="inscricoesAbertas" type="checkbox" />
+        <span><strong>Inscrições abertas</strong><small>Indique se o torneio está recebendo participantes.</small></span>
+      </label>
+
+      <div class="acoes-formulario">
+        <a class="botao-secundario" routerLink="/admin">Cancelar</a>
         <button type="submit" [disabled]="loading || loadingData">
-            @if (loading) {
-                Salvando...
-            } @else if (editingId !== null) {
-                Atualizar Torneio
-            } @else {
-                Salvar
-            }
-
+          @if (loading) { Salvando... } @else if (editingId !== null) { Atualizar torneio } @else { Criar torneio }
+          <span aria-hidden="true">↗</span>
         </button>
+      </div>
     </form>
-</div>
-
-
+  </div>
+</section>

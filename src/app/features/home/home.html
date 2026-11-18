@@ -1,97 +1,55 @@
 <div class="home">
-  <section class="hero">
+  <section class="hero" aria-labelledby="titulo-home">
     <div class="hero-conteudo">
-      <span class="etiqueta">Conteúdo digital sem complicação</span>
-      <h1>Suas ideias merecem <em>ganhar o mundo.</em></h1>
-      <p>O EsportArena reúne criação, organização e venda de conteúdos digitais em um só lugar — simples para quem publica
-        e agradável para quem compra.</p>
+      <span class="etiqueta"><span class="ponto-ativo"></span> EsportArena • sua próxima disputa começa aqui</span>
+      <h1 id="titulo-home">Entre na <span>arena.</span><br>Jogue para vencer.</h1>
+      <p>Descubra torneios dos seus jogos favoritos, confira os detalhes de cada desafio e prepare-se para competir.</p>
       <div class="acoes">
-        <a class="botao botao-primario" routerLink="/conteudos">Explorar conteúdos</a>
-        <a class="botao botao-secundario" routerLink="/sobre">Conhecer o projeto</a>
+        <a class="botao botao-primario" routerLink="/conteudos">Explorar torneios <span aria-hidden="true">↗</span></a>
+        <a class="botao botao-secundario" href="#como-funciona">Como funciona</a>
       </div>
-      <div class="indicadores" aria-label="Destaques da plataforma">
-        <div><strong>100%</strong><span>digital</span></div>
-        <div><strong>24/7</strong><span>disponível</span></div>
-        <div><strong>∞</strong><span>ideias possíveis</span></div>
-      </div>
+      <div class="hero-rodape" aria-hidden="true"><span>COMPITA</span><span class="separador"></span><span>EVOLUA</span><span class="separador"></span><span>CONQUISTE</span></div>
     </div>
-
     <div class="hero-visual" aria-hidden="true">
-      <div class="circulo circulo-um"></div>
-      <div class="circulo circulo-dois"></div>
-      <div class="cartao cartao-principal">
-        <span class="icone">✦</span>
-        <small>Conteúdo em destaque</small>
-        <strong>Transforme conhecimento em oportunidade.</strong>
-        <div class="linha"><span></span><span></span></div>
-      </div>
-      <div class="cartao cartao-flutuante cartao-vendas"><span>↗</span>
-        <div><strong>Vendas</strong><small>crescendo por aqui</small></div>
-      </div>
-      <div class="cartao cartao-flutuante cartao-criadores"><span>♥</span>
-        <div><strong>Criadores</strong><small>ideias que conectam</small></div>
-      </div>
+      <div class="orbita orbita-externa"></div><div class="orbita orbita-interna"></div>
+      <div class="arena-simbolo"><span class="simbolo-estrela">✦</span><span>EA</span></div>
+      <div class="placa placa-superior"><small>01 / QUALIFICATÓRIA</small><strong>O desafio começa</strong></div>
+      <div class="placa placa-inferior"><small>02 / GRANDE FINAL</small><strong>O palco é seu</strong></div>
+      <span class="coordenada coordenada-esquerda">ARENA // ONLINE</span><span class="coordenada coordenada-direita">PLAY • COMPETE • WIN</span>
     </div>
   </section>
 
   <section class="vitrine" aria-labelledby="titulo-vitrine">
     <div class="vitrine-cabecalho">
-      <div>
-        <span class="etiqueta">Escolhidos para você</span>
-        <h2 id="titulo-vitrine">Conteúdos em destaque</h2>
-        <p>Uma amostra do que está esperando para ser descoberto.</p>
-      </div>
-      <div class="controles" aria-label="Controles do carrossel">
-        <button type="button" aria-label="Ver conteúdos anteriores" (click)="moverCarrossel(trilho, -1)">←</button>
-        <button type="button" aria-label="Ver próximos conteúdos" (click)="moverCarrossel(trilho, 1)">→</button>
-      </div>
+      <div><span class="etiqueta">Escolha sua próxima partida</span><h2 id="titulo-vitrine">Torneios <span>em destaque</span></h2><p>Encontre uma competição que combine com você.</p></div>
+      <div class="controles" aria-label="Controles do carrossel"><button type="button" aria-label="Ver torneios anteriores" (click)="moverCarrossel(trilho, -1)">←</button><button type="button" aria-label="Ver próximos torneios" (click)="moverCarrossel(trilho, 1)">→</button></div>
     </div>
-
-    <div class="trilho" #trilho tabindex="0" aria-label="Carrossel de conteúdos em destaque">
-      @for (torneio of conteudosDestaque$ | async; track torneio.id) {
-      <article class="card-conteudo">
-        <div class="capa" [class]="'capa ' + torneio.jogo">
-          <span>{{ torneio.jogo }}</span>
-          <small>EsportArena</small>
-        </div>
-        <div class="card-corpo">
-          <span class="categoria">{{ torneio.jogo }}</span>
-          <h3>{{ torneio.nome }}</h3>
-          <a [routerLink]="['/conteudos', torneio.id]" [attr.aria-label]="'Conhecer ' + torneio.nome">Conhecer
-            <span>→</span></a>
-        </div>
-      </article>
-      }
+    <div class="trilho" #trilho tabindex="0" aria-label="Carrossel de torneios em destaque">
+      @if (torneiosDestaque$ | async; as torneios) {
+        @for (torneio of torneios; track torneio.id) {
+          <article class="card-torneio">
+            <div class="card-topo"><span class="card-marca">EA<span>✦</span></span><span class="card-status" [class.encerrado]="!torneio.inscricoesAbertas">{{ torneio.inscricoesAbertas ? 'Inscrições abertas' : 'Inscrições encerradas' }}</span></div>
+            <div class="card-centro"><span class="card-jogo">{{ torneio.jogo }}</span><h3>{{ torneio.nome }}</h3><p>{{ torneio.plataforma }}</p></div>
+            <a class="card-link" [routerLink]="['/conteudos', torneio.id]" [attr.aria-label]="'Ver detalhes do torneio ' + torneio.nome">Ver torneio <span aria-hidden="true">↗</span></a>
+          </article>
+        } @empty { <p class="estado-vazio">Nenhum torneio em destaque no momento. Volte em breve para conferir as próximas disputas.</p> }
+      } @else { <p class="estado-vazio">Carregando torneios...</p> }
     </div>
-    <p class="dica-arraste">Arraste para o lado para ver mais conteúdos</p>
+    <p class="dica-arraste">Deslize para ver mais torneios</p>
+    <a class="link-todos" routerLink="/conteudos">Ver todos os torneios <span aria-hidden="true">↗</span></a>
   </section>
 
-  <section class="recursos" aria-labelledby="titulo-recursos">
-    <div class="cabecalho-secao">
-      <span class="etiqueta">Do começo ao clique</span>
-      <h2 id="titulo-recursos">Tudo o que seu conteúdo precisa</h2>
-      <p>Uma experiência pensada para deixar o trabalho organizado e o caminho do público mais curto.</p>
-    </div>
+  <section class="recursos" id="como-funciona" aria-labelledby="titulo-recursos">
+    <div class="cabecalho-secao"><span class="etiqueta">Seu caminho até a arena</span><h2 id="titulo-recursos">Pronto para <span>entrar em jogo?</span></h2><p>Tudo começa com a escolha do desafio certo para você.</p></div>
     <div class="grade-recursos">
-      <article><span class="numero">01</span>
-        <h3>Organize</h3>
-        <p>Mantenha seus conteúdos reunidos, bem apresentados e fáceis de encontrar.</p>
-      </article>
-      <article class="destaque"><span class="numero">02</span>
-        <h3>Compartilhe</h3>
-        <p>Apresente suas ideias com clareza e alcance as pessoas certas.</p>
-      </article>
-      <article><span class="numero">03</span>
-        <h3>Cresça</h3>
-        <p>Acompanhe sua jornada e transforme conhecimento em novas possibilidades.</p>
-      </article>
+      <article><span class="numero">01 / DESCUBRA</span><h3>Encontre seu torneio</h3><p>Explore as competições e escolha o jogo que você quer disputar.</p></article>
+      <article><span class="numero">02 / CONFIRA</span><h3>Veja os detalhes</h3><p>Consulte plataforma, data, limite de participantes e premiação.</p></article>
+      <article><span class="numero">03 / PREPARE-SE</span><h3>Entre no clima</h3><p>Afie sua estratégia e esteja pronto para a próxima partida.</p></article>
     </div>
   </section>
 
-  <section class="chamada-final">
-    <div><span class="etiqueta">Pronto para começar?</span>
-      <h2>Tem sempre alguma coisa boa esperando para ser descoberta.</h2>
-    </div>
-    <a class="botao botao-claro" routerLink="/conteudos">Ver conteúdos <span>→</span></a>
+  <section class="chamada-final" aria-labelledby="titulo-chamada">
+    <div><span class="etiqueta">A próxima jogada é sua</span><h2 id="titulo-chamada">Sua arena está esperando.</h2><p>Explore os torneios disponíveis e encontre seu próximo desafio.</p></div>
+    <a class="botao botao-primario" routerLink="/conteudos">Ver torneios <span aria-hidden="true">↗</span></a>
   </section>
 </div>

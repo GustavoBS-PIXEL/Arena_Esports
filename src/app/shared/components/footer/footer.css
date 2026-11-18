@@ -1,6 +1,7 @@
 /* CSS do rodapé: pode ser alterado pelos alunos */
+
 .rodape {
-    background: #1d2440;
+    background: #00003e;
     color: #fff;
     text-align: center;
     padding: 24px 16px;
@@ -11,5 +12,5 @@
 }
 
 .rodape small {
-    color: #c5cbe0;
+    color: #b8c8db;
 }

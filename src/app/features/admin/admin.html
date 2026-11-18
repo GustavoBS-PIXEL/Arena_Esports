@@ -14,7 +14,7 @@
         </div>
     }
 
-    @if (!loading() && torneios().length === 0) {
+    @if (!loading() && !errorMessage && torneios().length === 0) {
         <div class="empty-state">
             <p>Nenhum torneio encontrado.</p>
         </div>

@@ -1,3 +1,36 @@
-<h1>Conteúdos disponíveis</h1>
-<p>Aqui será implementada a listagem pública dos conteúdos cadastrados.</p>
-<p>Por enquanto, esta página apresenta somente a estrutura inicial.</p>
+<section class="catalogo" aria-labelledby="titulo-torneios">
+  <header class="cabecalho">
+    <div>
+      <span class="etiqueta">ESPORTARENA / COMPETIÇÕES</span>
+      <h1 id="titulo-torneios">Encontre seu próximo <span>torneio.</span></h1>
+      <p>Explore as disputas disponíveis e escolha onde será sua próxima partida.</p>
+    </div>
+    <div class="cabecalho-emblema" aria-hidden="true">EA<span>✦</span></div>
+  </header>
+
+  <div class="secao-lista">
+    <div class="lista-cabecalho">
+      <div><span class="etiqueta">ESCOLHA SEU DESAFIO</span><h2>Torneios da arena</h2></div>
+      @if (!loading() && !errorMessage) { <span class="total">{{ torneios().length }} {{ torneios().length === 1 ? 'torneio' : 'torneios' }}</span> }
+    </div>
+
+    @if (loading()) {
+      <div class="estado" role="status"><span class="estado-simbolo" aria-hidden="true">✦</span><h3>Preparando a arena...</h3><p>Carregando os torneios disponíveis.</p></div>
+    } @else if (errorMessage) {
+      <div class="estado" role="alert"><span class="estado-simbolo" aria-hidden="true">!</span><h3>Não foi possível carregar os torneios</h3><p>{{ errorMessage }}. Tente novamente.</p><button type="button" (click)="loadTorneios()">Tentar novamente <span aria-hidden="true">↗</span></button></div>
+    } @else if (torneios().length === 0) {
+      <div class="estado"><span class="estado-simbolo" aria-hidden="true">✦</span><h3>A arena está aguardando novos desafios</h3><p>Não há torneios cadastrados no momento. Volte em breve.</p></div>
+    } @else {
+      <div class="grade-torneios">
+        @for (torneio of torneios(); track torneio.id) {
+          <article class="card-torneio">
+            <div class="card-topo"><span class="card-marca">EA<span>✦</span></span><span class="status" [class.encerrado]="!torneio.inscricoesAbertas"><span class="status-ponto" aria-hidden="true"></span>{{ torneio.inscricoesAbertas ? 'Inscrições abertas' : 'Inscrições encerradas' }}</span></div>
+            <div class="card-principal"><span class="jogo">{{ torneio.jogo }}</span><h3>{{ torneio.nome }}</h3></div>
+            <dl class="card-dados"><div><dt>Data</dt><dd>{{ torneio.data }}</dd></div><div><dt>Plataforma</dt><dd>{{ torneio.plataforma }}</dd></div><div><dt>Premiação</dt><dd>{{ torneio.premiacao | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</dd></div></dl>
+            <a class="card-link" [routerLink]="['/conteudos', torneio.id]" [attr.aria-label]="'Ver detalhes do torneio ' + torneio.nome">Ver detalhes <span aria-hidden="true">↗</span></a>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>
